@@ -274,6 +274,11 @@ the bootloader, partition table, boot_app0 image, and app image, but leaves the
 NVS preferences partition at `0x9000` untouched. That preserves saved name, LED
 count, segments, scenes, and sync settings when flash is not erased.
 
+LumaLuxeControl does not currently expose Improv Serial metadata. ESP Web Tools
+defaults to erase for devices without Improv unless the manifest explicitly asks
+the user. The update manifest therefore includes `new_install_prompt_erase`.
+Leave `Erase device` unchecked when updating.
+
 Use erase with care:
 
 ```text
@@ -306,13 +311,15 @@ For a merged/factory ESP32-C3 image, the manifest should install the file at off
 ```
 
 For a preference-preserving update, the manifest should install the boot pieces
-and app while avoiding the NVS preferences partition at `0x9000`. It should not
-request erase:
+and app while avoiding the NVS preferences partition at `0x9000`. It should
+prompt for erase so ESP Web Tools does not erase automatically on devices
+without Improv Serial:
 
 ```json
 {
   "name": "LumaLuxeControl Firmware Update",
   "version": "2026.05.20",
+  "new_install_prompt_erase": true,
   "builds": [
     {
       "chipFamily": "ESP32-C3",
