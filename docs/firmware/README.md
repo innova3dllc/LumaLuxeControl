@@ -16,7 +16,8 @@ erased.
 
 The update manifest includes `new_install_prompt_erase` because ESP Web Tools
 defaults to erase on devices that do not expose Improv Serial metadata. Leave
-`Erase device` unchecked when updating.
+`Erase device` unchecked when updating, click Next, and continue only if the
+final confirmation does not say data will be erased.
 
 If your build gives you separate binaries, update `manifest.json` with the
 actual file names and offsets from your build output. A common ESP32-C3 layout

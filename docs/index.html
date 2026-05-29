@@ -309,8 +309,9 @@
             saved name, LED count, segments, scenes, and sync settings.
           </p>
           <p>
-            When updating, leave <strong>Erase device</strong> unchecked in the
-            ESP Web Tools dialog.
+            When updating, ESP Web Tools will show an <strong>Erase device</strong>
+            step. Leave the checkbox unchecked, click Next, and continue only if
+            the final confirmation does not say data will be erased.
           </p>
           <p>
             Supported browsers: Chrome and Microsoft Edge on desktop. Safari,
@@ -336,7 +337,7 @@
 
           <div class="install-option">
             <h3>Update firmware</h3>
-            <p>Writes boot files plus the app while preserving saved preferences.</p>
+            <p>Writes boot files plus the app. At the erase step, leave the checkbox unchecked.</p>
             <esp-web-install-button manifest="manifest-update-preserve.json">
               <button slot="activate">Update firmware</button>
               <span slot="unsupported" class="notice">
