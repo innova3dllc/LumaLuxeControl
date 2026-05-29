@@ -37,7 +37,7 @@ This page uses ESP Web Tools with two paths:
 
 ```text
 Install / reset: docs/firmware/firmware.bin at offset 0
-Update firmware: docs/firmware/app.bin at offset 0x10000
+Update firmware: bootloader/partitions/boot_app0 plus docs/firmware/app.bin at offset 0x10000
 ```
 
 Use install/reset for blank boards or recovery. Use update only for devices
@@ -257,8 +257,8 @@ segmentCount: 1
 scene: Demo
 ```
 
-If the device had previous settings stored in ESP32 preferences, an app-only
-update preserves those settings. Use the app or serial commands to adjust
+If the device had previous settings stored in ESP32 preferences, the update
+flow preserves those settings. Use the app or serial commands to adjust
 `NUMLEDS`, segments, and name after flashing.
 
 ## Fresh Install Versus Update
@@ -270,9 +270,9 @@ returned to a clean factory setup. It writes the merged factory image at offset
 `0` and can erase saved preferences.
 
 Use `Update firmware` for a device that already runs LumaLuxeControl. It writes
-only the app image at offset `0x10000`, leaves the NVS preferences partition at
-`0x9000` untouched, and preserves saved name, LED count, segments, scenes, and
-sync settings.
+the bootloader, partition table, boot_app0 image, and app image, but leaves the
+NVS preferences partition at `0x9000` untouched. That preserves saved name, LED
+count, segments, scenes, and sync settings when flash is not erased.
 
 Use erase with care:
 
@@ -305,8 +305,9 @@ For a merged/factory ESP32-C3 image, the manifest should install the file at off
 }
 ```
 
-For an app-only update image, the manifest should install the file at offset
-`65536` (`0x10000`) and should not request erase:
+For a preference-preserving update, the manifest should install the boot pieces
+and app while avoiding the NVS preferences partition at `0x9000`. It should not
+request erase:
 
 ```json
 {
@@ -316,6 +317,18 @@ For an app-only update image, the manifest should install the file at offset
     {
       "chipFamily": "ESP32-C3",
       "parts": [
+        {
+          "path": "docs/firmware/bootloader.bin",
+          "offset": 0
+        },
+        {
+          "path": "docs/firmware/partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "docs/firmware/boot_app0.bin",
+          "offset": 57344
+        },
         {
           "path": "docs/firmware/app.bin",
           "offset": 65536
