@@ -176,6 +176,24 @@
         gap: 12px;
       }
 
+      .install-area h3 {
+        margin: 0;
+        font-size: 1rem;
+        letter-spacing: 0;
+      }
+
+      .install-option {
+        display: grid;
+        gap: 8px;
+      }
+
+      .install-option p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.94rem;
+        line-height: 1.5;
+      }
+
       esp-web-install-button::part(button) {
         min-height: 48px;
         border-radius: 6px;
@@ -286,9 +304,9 @@
         <div class="flash-copy">
           <h2 id="flash-title">Ready to flash</h2>
           <p>
-            This page uses ESP Web Tools and the local manifest at
-            <code>manifest.json</code>. Chrome and Edge support Web Serial on
-            secure origins such as HTTPS and localhost.
+            Use install/reset for a blank ESP32-C3 or recovery. Use update for
+            a device that already runs Luma Luxe Control and should keep its
+            saved name, LED count, segments, scenes, and sync settings.
           </p>
           <p>
             Supported browsers: Chrome and Microsoft Edge on desktop. Safari,
@@ -298,15 +316,33 @@
         </div>
 
         <div class="install-area">
-          <esp-web-install-button manifest="manifest.json">
-            <button slot="activate">Connect and flash</button>
-            <span slot="unsupported" class="notice">
-              Use Chrome or Edge on desktop to flash through Web Serial.
-            </span>
-            <span slot="not-allowed" class="notice">
-              Host this page over HTTPS or run it from localhost.
-            </span>
-          </esp-web-install-button>
+          <div class="install-option">
+            <h3>Install / reset</h3>
+            <p>Writes the complete factory image. Use this for new boards or recovery.</p>
+            <esp-web-install-button manifest="manifest.json">
+              <button slot="activate">Install or reset</button>
+              <span slot="unsupported" class="notice">
+                Use Chrome or Edge on desktop to flash through Web Serial.
+              </span>
+              <span slot="not-allowed" class="notice">
+                Host this page over HTTPS or run it from localhost.
+              </span>
+            </esp-web-install-button>
+          </div>
+
+          <div class="install-option">
+            <h3>Update firmware</h3>
+            <p>Writes only the app image at 0x10000 and preserves saved preferences.</p>
+            <esp-web-install-button manifest="manifest-update.json">
+              <button slot="activate">Update firmware</button>
+              <span slot="unsupported" class="notice">
+                Use Chrome or Edge on desktop to flash through Web Serial.
+              </span>
+              <span slot="not-allowed" class="notice">
+                Host this page over HTTPS or run it from localhost.
+              </span>
+            </esp-web-install-button>
+          </div>
         </div>
       </section>
 

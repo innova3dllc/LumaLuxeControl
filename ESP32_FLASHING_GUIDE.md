@@ -33,7 +33,15 @@ LumaLuxeControl hosted installer:
 https://thetazzbot.github.io/LumaLuxeControl/
 ```
 
-This page uses ESP Web Tools and the published `docs/firmware/firmware.bin` factory image.
+This page uses ESP Web Tools with two paths:
+
+```text
+Install / reset: docs/firmware/firmware.bin at offset 0
+Update firmware: docs/firmware/app.bin at offset 0x10000
+```
+
+Use install/reset for blank boards or recovery. Use update only for devices
+that have already been factory-flashed with LumaLuxeControl.
 
 Manual fallback flasher:
 
@@ -249,13 +257,22 @@ segmentCount: 1
 scene: Demo
 ```
 
-If the device had previous settings stored in ESP32 preferences, flashing firmware may not erase those settings. Use the app or serial commands to adjust `NUMLEDS`, segments, and name after flashing.
+If the device had previous settings stored in ESP32 preferences, an app-only
+update preserves those settings. Use the app or serial commands to adjust
+`NUMLEDS`, segments, and name after flashing.
 
 ## Fresh Install Versus Update
 
-A normal firmware flash may preserve saved settings.
+The hosted flasher has two actions.
 
-That is useful for updates, but for a truly fresh setup users may need to erase flash first. The hosted web flasher can prompt for erase during the install flow.
+Use `Install / reset` for a blank board, recovery, or a device that should be
+returned to a clean factory setup. It writes the merged factory image at offset
+`0` and can erase saved preferences.
+
+Use `Update firmware` for a device that already runs LumaLuxeControl. It writes
+only the app image at offset `0x10000`, leaves the NVS preferences partition at
+`0x9000` untouched, and preserves saved name, LED count, segments, scenes, and
+sync settings.
 
 Use erase with care:
 
@@ -281,6 +298,27 @@ For a merged/factory ESP32-C3 image, the manifest should install the file at off
         {
           "path": "docs/firmware/firmware.bin",
           "offset": 0
+        }
+      ]
+    }
+  ]
+}
+```
+
+For an app-only update image, the manifest should install the file at offset
+`65536` (`0x10000`) and should not request erase:
+
+```json
+{
+  "name": "LumaLuxeControl Firmware Update",
+  "version": "2026.05.20",
+  "builds": [
+    {
+      "chipFamily": "ESP32-C3",
+      "parts": [
+        {
+          "path": "docs/firmware/app.bin",
+          "offset": 65536
         }
       ]
     }
