@@ -45,14 +45,14 @@
       }
 
       main {
-        width: min(980px, calc(100% - 32px));
+        width: min(1200px, calc(100% - 48px));
         margin: 0 auto;
-        padding: 56px 0;
+        padding: 48px 0;
       }
 
       .masthead {
         display: grid;
-        grid-template-columns: auto 1fr;
+        grid-template-columns: auto 1fr minmax(320px, 480px);
         gap: 24px;
         padding: 24px 0 32px;
         border-bottom: 1px solid var(--line);
@@ -144,6 +144,36 @@
         border: 1px solid var(--line);
         border-radius: 8px;
         box-shadow: 0 22px 65px rgba(23, 32, 27, 0.08);
+      }
+
+      /* The infographic panel is positioned inside the masthead to the right */
+
+      .infographic-panel {
+        padding: 20px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        box-shadow: 0 12px 35px rgba(23, 32, 27, 0.06);
+        display: grid;
+        gap: 12px;
+      }
+
+      .infographic-panel h2 {
+        margin: 0;
+        font-size: 1.15rem;
+      }
+
+      .infographic-iframe {
+        width: 100%;
+        height: min(60vh, 720px);
+        border: 0;
+        border-radius: 6px;
+        background: #fff;
+      }
+
+      .infographic-panel {
+        min-height: 320px;
+        overflow: auto;
       }
 
       .flash-copy {
@@ -250,7 +280,7 @@
 
       @media (max-width: 720px) {
         main {
-          width: min(100% - 24px, 980px);
+          width: min(100% - 24px, 1200px);
           padding: 32px 0;
         }
 
@@ -298,58 +328,62 @@
             </div>
           </dl>
         </div>
+        </div>
+        <aside class="infographic-panel">
+          <iframe class="infographic-iframe" src="infographic/index.html" title="Infographic slideshow" loading="lazy" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+        </aside>
       </section>
 
       <section class="flash-panel" aria-labelledby="flash-title">
-        <div class="flash-copy">
-          <h2 id="flash-title">Ready to flash</h2>
-          <p>
-            Use install/reset for a blank ESP32-C3 or recovery. Use update for
-            a device that already runs Luma Luxe Control and should keep its
-            saved name, LED count, segments, scenes, and sync settings.
-          </p>
-          <p>
-            When updating, ESP Web Tools will show an <strong>Erase device</strong>
-            step. Leave the checkbox unchecked, click Next, and continue only if
-            the final confirmation does not say data will be erased.
-          </p>
-          <p>
-            Supported browsers: Chrome and Microsoft Edge on desktop. Safari,
-            Firefox, and most mobile browsers do not currently support Web
-            Serial flashing.
-          </p>
-        </div>
-
-        <div class="install-area">
-          <div class="install-option">
-            <h3>Install / reset</h3>
-            <p>Writes the complete factory image. Use this for new boards or recovery.</p>
-            <esp-web-install-button manifest="manifest.json">
-              <button slot="activate">Install or reset</button>
-              <span slot="unsupported" class="notice">
-                Use Chrome or Edge on desktop to flash through Web Serial.
-              </span>
-              <span slot="not-allowed" class="notice">
-                Host this page over HTTPS or run it from localhost.
-              </span>
-            </esp-web-install-button>
+          <div class="flash-copy">
+            <h2 id="flash-title">Ready to flash</h2>
+            <p>
+              Use install/reset for a blank ESP32-C3 or recovery. Use update for
+              a device that already runs Luma Luxe Control and should keep its
+              saved name, LED count, segments, scenes, and sync settings.
+            </p>
+            <p>
+              When updating, ESP Web Tools will show an <strong>Erase device</strong>
+              step. Leave the checkbox unchecked, click Next, and continue only if
+              the final confirmation does not say data will be erased.
+            </p>
+            <p>
+              Supported browsers: Chrome and Microsoft Edge on desktop. Safari,
+              Firefox, and most mobile browsers do not currently support Web
+              Serial flashing.
+            </p>
           </div>
 
-          <div class="install-option">
-            <h3>Update firmware</h3>
-            <p>Writes boot files plus the app. At the erase step, leave the checkbox unchecked.</p>
-            <esp-web-install-button manifest="manifest-update-preserve.json">
-              <button slot="activate">Update firmware</button>
-              <span slot="unsupported" class="notice">
-                Use Chrome or Edge on desktop to flash through Web Serial.
-              </span>
-              <span slot="not-allowed" class="notice">
-                Host this page over HTTPS or run it from localhost.
-              </span>
-            </esp-web-install-button>
+          <div class="install-area">
+            <div class="install-option">
+              <h3>Install / reset</h3>
+              <p>Writes the complete factory image. Use this for new boards or recovery.</p>
+              <esp-web-install-button manifest="manifest.json">
+                <button slot="activate">Install or reset</button>
+                <span slot="unsupported" class="notice">
+                  Use Chrome or Edge on desktop to flash through Web Serial.
+                </span>
+                <span slot="not-allowed" class="notice">
+                  Host this page over HTTPS or run it from localhost.
+                </span>
+              </esp-web-install-button>
+            </div>
+
+            <div class="install-option">
+              <h3>Update firmware</h3>
+              <p>Writes boot files plus the app. At the erase step, leave the checkbox unchecked.</p>
+              <esp-web-install-button manifest="manifest-update-preserve.json">
+                <button slot="activate">Update firmware</button>
+                <span slot="unsupported" class="notice">
+                  Use Chrome or Edge on desktop to flash through Web Serial.
+                </span>
+                <span slot="not-allowed" class="notice">
+                  Host this page over HTTPS or run it from localhost.
+                </span>
+              </esp-web-install-button>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
      
     </main>
