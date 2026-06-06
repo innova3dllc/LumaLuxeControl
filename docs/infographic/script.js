@@ -2,6 +2,7 @@
 const slides=[1,2,3,4,5,6].map(i=>`assets/slide${i}.png`);
 // Add the final promotional image as the last slide
 slides.push('assets/get-the-luma-luxe-remote-app.jpeg');
+const appStoreUrl = 'https://apps.apple.com/us/app/luma-luxe-remote/id6773765947';
 let idx=0,playing=true,timer;
 const slide=document.getElementById('slide');
 const play=document.getElementById('play');
@@ -21,12 +22,20 @@ slides.forEach((s,i)=>{
  im.src=s;
  im.onclick=()=>{
    idx=i; render();
+   if(i === slides.length - 1){
+     window.open(appStoreUrl, '_blank', 'noopener');
+     return;
+   }
    playing=false; stop(); play.textContent='Play';
  };
  thumbs.appendChild(im);
 });
 
 slide.onclick=()=>{
+ if(idx === slides.length - 1){
+   window.open(appStoreUrl, '_blank', 'noopener');
+   return;
+ }
  playing=false; stop(); play.textContent='Play';
 };
 
