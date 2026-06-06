@@ -185,6 +185,7 @@
         box-shadow: 0 12px 35px rgba(23, 32, 27, 0.06);
         display: grid;
         gap: 12px;
+        position: relative;
       }
 
       .infographic-panel h2 {
@@ -203,6 +204,18 @@
       .infographic-panel {
         min-height: 320px;
         overflow: auto;
+      }
+
+      .infographic-panel .panel-finger {
+        position: absolute;
+        top: 12px;
+        left: 62%;
+        transform: translateX(-50%);
+        font-size: 36px;
+        animation: tap 1.2s infinite ease-in-out;
+        pointer-events: none;
+        z-index: 40;
+        filter: drop-shadow(0 2px 2px rgba(0,0,0,0.18));
       }
 
       .flash-copy {
@@ -366,7 +379,8 @@
         </div>
         <aside class="infographic-panel">
           <iframe class="infographic-iframe" src="infographic/index.html" title="Infographic slideshow" loading="lazy" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
-        </aside>
+            <span class="panel-finger" aria-hidden="true">👉</span>
+          </aside>
       </section>
 
       <section class="flash-panel" aria-labelledby="flash-title">
