@@ -1,5 +1,7 @@
 
 const slides=[1,2,3,4,5,6].map(i=>`assets/slide${i}.png`);
+// Add the final promotional image as the last slide
+slides.push('assets/get-the-luma-luxe-remote-app.jpeg');
 let idx=0,playing=true,timer;
 const slide=document.getElementById('slide');
 const play=document.getElementById('play');
